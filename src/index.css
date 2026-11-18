@@ -1,0 +1,180 @@
+@import "@fontsource/noto-kufi-arabic/arabic-300.css";
+@import "@fontsource/noto-kufi-arabic/arabic-500.css";
+@import "@fontsource/ibm-plex-sans-arabic/400.css";
+@import "@fontsource/ibm-plex-sans-arabic/500.css";
+@import "@fontsource/ibm-plex-sans-arabic/600.css";
+@import "@fontsource/ibm-plex-mono/400.css";
+
+@import "tailwindcss";
+@import "tw-animate-css";
+
+/*
+  Brand tokens come from the company's own identity (repo: Logo.jsx, index.css):
+  mark gold #CCAE6E, deep gold #80652F, near-black #11110F.
+  The page climbs from ink (ground level) to paper (the roof).
+
+  Two themes, switched with data-theme on any section:
+    night  = ink ground, gold accent  (hero, projects, services)
+    paper  = limestone ground, ink text, deep-gold accent
+  Components read semantic colours (bg-surface / bg-background, text-fg /
+  text-foreground, bg-accent / bg-primary ...), so a section changes theme
+  without changing a single class. Both naming sets point at the same values:
+  ours for page code, shadcn's so any shadcn component we add later just works.
+*/
+@theme {
+  --font-display: "Noto Kufi Arabic", "IBM Plex Sans Arabic", system-ui, sans-serif;
+  --font-body: "IBM Plex Sans Arabic", system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+
+  --color-ink: #11110f;
+  --color-ink-2: #1b1a15;
+  --color-paper: #efe9dc;
+  --color-gold: #ccae6e;
+  --color-gold-deep: #80652f;
+  --color-bone: #f2ebdd;
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* Square everywhere: this design has no rounded corners. */
+  --radius-xs: 0;
+  --radius-sm: 0;
+  --radius-md: 0;
+  --radius-lg: 0;
+  --radius-xl: 0;
+
+  --animate-accordion-down: accordion-down 0.5s var(--ease-out-expo);
+  --animate-accordion-up: accordion-up 0.4s var(--ease-out-expo);
+
+  @keyframes accordion-down {
+    from {
+      height: 0;
+    }
+    to {
+      height: var(--radix-accordion-content-height);
+    }
+  }
+  @keyframes accordion-up {
+    from {
+      height: var(--radix-accordion-content-height);
+    }
+    to {
+      height: 0;
+    }
+  }
+}
+
+/* Semantic colours read from the active theme's variables. */
+@theme inline {
+  /* Ours */
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-fg: var(--fg);
+  --color-fg-muted: var(--fg-muted);
+  --color-line: var(--line);
+  --color-accent: var(--accent);
+  --color-accent-fg: var(--accent-fg);
+
+  /* shadcn names, mapped onto the same values */
+  --color-background: var(--surface);
+  --color-foreground: var(--fg);
+  --color-card: var(--surface-2);
+  --color-card-foreground: var(--fg);
+  --color-popover: var(--surface);
+  --color-popover-foreground: var(--fg);
+  --color-primary: var(--accent);
+  --color-primary-foreground: var(--accent-fg);
+  --color-secondary: var(--surface-2);
+  --color-secondary-foreground: var(--fg);
+  --color-muted: var(--surface-2);
+  --color-muted-foreground: var(--fg-muted);
+  --color-accent-foreground: var(--accent-fg);
+  --color-destructive: #b4483a;
+  --color-border: var(--line);
+  --color-input: var(--line);
+  --color-ring: var(--accent);
+}
+
+:root,
+[data-theme="paper"] {
+  --surface: #efe9dc;
+  --surface-2: #e5ddcc;
+  --fg: #11110f;
+  --fg-muted: #4a4538;
+  --line: rgb(17 17 15 / 0.28);
+  --accent: #80652f;
+  --accent-fg: #f2ebdd;
+  color-scheme: light;
+}
+
+[data-theme="night"] {
+  --surface: #11110f;
+  --surface-2: #1b1a15;
+  --fg: #f2ebdd;
+  --fg-muted: #b9af9a;
+  --line: rgb(204 174 110 / 0.35);
+  --accent: #ccae6e;
+  --accent-fg: #11110f;
+  color-scheme: dark;
+}
+
+@layer base {
+  html {
+    background-color: var(--color-ink);
+    font-family: var(--font-body);
+    /* Arabic: no letter-spacing anywhere (it breaks letter joining). */
+    letter-spacing: 0;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    scrollbar-color: var(--color-gold-deep) var(--color-ink);
+    scrollbar-width: thin;
+  }
+
+  body {
+    background-color: var(--surface);
+    color: var(--fg);
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+    text-wrap: balance;
+  }
+
+  ::selection {
+    background: var(--color-gold);
+    color: var(--color-ink);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 4px;
+  }
+
+  a {
+    text-underline-offset: 0.35em;
+    text-decoration-thickness: 1px;
+  }
+
+  button {
+    cursor: pointer;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+/* Lenis owns smooth scrolling; these are its recommended base rules. */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}

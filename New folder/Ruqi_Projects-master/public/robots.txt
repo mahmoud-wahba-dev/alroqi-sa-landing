@@ -1,0 +1,11 @@
+User-agent: *
+Allow: /
+
+# Substitute the deployed production URL during hosting configuration.
+# Sitemap: https://www.example.com/sitemap.xml
+
+# Supplementary AI reference for permitted public crawlers.
+# LLM discovery: https://www.example.com/llms.txt
+
+# Do not block generative or answer-engine crawlers indiscriminately.
+# Crawl access to public content should be controlled by robots directives and page-level canonicals.
